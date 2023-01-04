@@ -1,0 +1,6 @@
+name: "Jira Logout"
+description: "Logout Jira Cloud instance"
+author: "Ahiho"
+runs:
+  using: "node16"
+  main: "../../dist/logout-main.js"

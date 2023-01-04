@@ -1,13 +1,13 @@
-name: 'build-test'
-on: # rebuild any PRs and main branch changes
+name: "build-test"
+on:
   pull_request:
   push:
     branches:
       - main
-      - 'releases/*'
+      - "releases/*"
 
 jobs:
-  build: # make sure build/ci work properly
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -15,10 +15,27 @@ jobs:
           npm install
       - run: |
           npm run all
-  test: # make sure the action works on a clean machine without building
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: ./
+      - uses: ./actions/login
+        env:
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+      - uses: ./actions/find-issue-key
         with:
-          milliseconds: 1000
+          string: ${{ github.event.pull_request.head.ref }} ${{ github.event.pull_request.title }}
+      - uses: ./actions/comment
+        with:
+          comment: |
+            # Markdown header
+            Description body. This is [a supported link](https://github.com/ahiho)
+            This is an external image ![this is image alt](https://thisisimagelink.com)
+            ## Markdown header 2
+            ### Markdown header 3
+      - uses: ./actions/transition
+        with:
+          transition: "In progress"
+      - uses: ./actions/logout

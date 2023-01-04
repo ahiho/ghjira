@@ -1,0 +1,10 @@
+name: "Comment to JIRA ticket"
+description: "Comment to JIRA ticket"
+author: "Ahiho"
+inputs:
+  comment:
+    description: The content of the comment that you will post on the ticket
+    required: true
+runs:
+  using: "node16"
+  main: "../../dist/comment-main.js"

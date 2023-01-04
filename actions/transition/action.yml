@@ -1,0 +1,10 @@
+name: "Find Jira Issue Key"
+description: "Find Jira Issue Key By Issue Id"
+author: "Ahiho"
+inputs:
+  transition:
+    description: a
+    required: true
+runs:
+  using: "node16"
+  main: "../../dist/transition-main.js"
