@@ -1,12 +1,19 @@
 'use strict';
 
-var Url = require('url');
+var url = require('url');
 var fetch = require('./fetch.js');
-require('stream');
-require('http');
-require('punycode');
-require('https');
-require('zlib');
+require('node:http');
+require('node:https');
+require('node:zlib');
+require('node:stream');
+require('node:buffer');
+require('node:util');
+require('./index-5862fa85.js');
+require('./_commonjsHelpers-9f9f50a8.js');
+require('node:url');
+require('node:net');
+require('node:fs');
+require('node:path');
 
 class Jira {
     baseUrl;
@@ -17,8 +24,8 @@ class Jira {
         this.token = token;
         this.email = email;
     }
-    jiraClient(url, { method, body, headers = {} }) {
-        const requestUrl = new Url.URL(url, this.baseUrl);
+    jiraClient(url$1, { method, body, headers = {} }) {
+        const requestUrl = new url.URL(url$1, this.baseUrl);
         if (method === undefined) {
             method = 'GET';
         }

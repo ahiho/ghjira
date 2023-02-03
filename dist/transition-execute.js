@@ -3,11 +3,18 @@
 var jira = require('./jira.js');
 require('url');
 require('./fetch.js');
-require('stream');
-require('http');
-require('punycode');
-require('https');
-require('zlib');
+require('node:http');
+require('node:https');
+require('node:zlib');
+require('node:stream');
+require('node:buffer');
+require('node:util');
+require('./index-5862fa85.js');
+require('./_commonjsHelpers-9f9f50a8.js');
+require('node:url');
+require('node:net');
+require('node:fs');
+require('node:path');
 
 async function execute(config, transitionName) {
     const jiraInstance = new jira({

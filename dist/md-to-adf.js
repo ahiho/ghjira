@@ -1,7 +1,7 @@
 'use strict';
 
 var _commonjsHelpers = require('./_commonjsHelpers-9f9f50a8.js');
-var require$$0$2 = require('punycode');
+var require$$8 = require('punycode');
 
 /**
  * @name expand_node
@@ -4025,6 +4025,7 @@ var panel = function panel(allowCustomPanel) {
     content: '(paragraph | heading | bulletList | orderedList | blockCard | unsupportedBlock)+',
     marks: 'unsupportedMark unsupportedNodeAttribute',
     attrs: getDefaultAttrs(),
+    selectable: true,
     parseDOM: [{
       tag: 'div[data-panel-type]',
       getAttrs: function getAttrs(dom) {
@@ -5143,7 +5144,7 @@ var createTableSpec = function createTableSpec() {
     marks: 'unsupportedMark unsupportedNodeAttribute',
     tableRole: 'table',
     isolating: true,
-    selectable: false,
+    selectable: true,
     group: 'block',
     parseDOM: [{
       tag: 'table',
@@ -22082,7 +22083,7 @@ var ParserBlock$2  = parser_block$1;
 var ParserInline$2 = parser_inline$1;
 var LinkifyIt$2    = linkifyIt$1;
 var mdurl$1        = mdurl$2;
-var punycode$1     = require$$0$2;
+var punycode$1     = require$$8;
 
 
 var config$1 = {
@@ -36194,7 +36195,7 @@ var ParserBlock  = parser_block;
 var ParserInline = parser_inline;
 var LinkifyIt    = linkifyIt;
 var mdurl        = mdurl$2;
-var punycode     = require$$0$2;
+var punycode     = require$$8;
 
 
 var config = {

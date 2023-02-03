@@ -2,7 +2,7 @@
 
 var fs = require('fs');
 var path$1 = require('path');
-var core = require('./core-bbeea745.js');
+var core = require('./core-d426bd55.js');
 var index = require('./index-7e527b11.js');
 var path = require('./path.js');
 var action = require('./action.js');
@@ -19,9 +19,17 @@ require('util');
 require('./jira.js');
 require('url');
 require('./fetch.js');
-require('stream');
-require('punycode');
-require('zlib');
+require('node:http');
+require('node:https');
+require('node:zlib');
+require('node:stream');
+require('node:buffer');
+require('node:util');
+require('./index-5862fa85.js');
+require('node:url');
+require('node:net');
+require('node:fs');
+require('node:path');
 
 async function run() {
     try {
