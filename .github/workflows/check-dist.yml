@@ -29,10 +29,10 @@ jobs:
           node-version: 16.x
 
       - name: Install dependencies
-        run: npm install --force
+        run: yarn
 
       - name: Rebuild the dist/ directory
-        run: npm run build
+        run: yarn build
 
       - name: Compare the expected and actual dist/ directories
         run: |
