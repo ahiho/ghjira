@@ -172,10 +172,10 @@ jobs:
 
             ![Alt text][id]
 
-            With a reference later in the document defining the URL location:
+            <!-- TODO: Need helping to support image token -->
+            <!--With a reference later in the document defining the URL location: -->
 
-            [id]: https://octodex.github.com/images/dojocat.jpg  "The Dojocat"
-
+            <!--[id]: https://octodex.github.com/images/dojocat.jpg  "The Dojocat" -->
 
             ## Plugins
 
