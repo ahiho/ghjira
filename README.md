@@ -7,11 +7,11 @@ The GitHub Actions for [Jira](https://www.atlassian.com/software/jira) to create
 
 ## Actions
 
-- [`Login`]() - Log in to the Jira API
-- [`Find issue key`]() - Search for an issue key in commit message, branch name, etc. This issue key is then saved and used by the next actions in the same workflow
-- [`Comment`]() - Add a comment to a Jira issue
-- [`Transition`]() - Transition a Jira issue
-- [`Logout`]() - Logout Jira
+- `Login` - Log in to the Jira API
+- `Find issue key` - Search for an issue key in commit message, branch name, etc. This issue key is then saved and used by the next actions in the same workflow
+- `Comment` - Add a comment to a Jira issue
+- `Transition` - Transition a Jira issue
+- `Logout` - Logout Jira
 
 ## Usage
 
@@ -49,7 +49,7 @@ jobs:
           comment: |
             # Markdown header
             Description body. This is [a supported link](https://github.com/ahiho)
-            This is an external image ![this is image alt](https://thisisimagelink.com)
+            This is an external image ![this is image alt](https://picsum.photos/200/300)
             ## Markdown header 2
             ### Markdown header 3
 
