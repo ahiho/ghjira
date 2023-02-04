@@ -1,0 +1,6 @@
+name: "Jira Login"
+description: "Log in to Jira Cloud instance"
+author: "Ahiho"
+runs:
+  using: "node16"
+  main: "../../dist/login-main.js"
