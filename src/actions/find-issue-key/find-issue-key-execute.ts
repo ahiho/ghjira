@@ -1,16 +1,8 @@
-import _ from 'lodash'
-
 import Jira from '../../services/jira'
 import getGithubEvent from '../../utils/get-github-event'
+import preprocessString from '../../utils/preprocess-string'
 
 const issueIdRegEx = /([a-zA-Z0-9]+-[0-9]+)/g
-
-const preprocessString = (str: string, githubEvent) => {
-  _.templateSettings.interpolate = /{{([\s\S]+?)}}/g
-  const tmpl = _.template(str)
-
-  return tmpl({event: githubEvent})
-}
 
 async function execute(config, inputString: string) {
   const githubEvent = getGithubEvent()
@@ -30,15 +22,17 @@ async function execute(config, inputString: string) {
     return
   }
 
-  for (const issueKey of match) {
-    const response = await jiraInstance.getIssue(issueKey)
+  const issues: string[] = []
 
-    if (response) {
-      return {issue: response.body.key}
+  for (const issueKey of match) {
+    const response = await jiraInstance.getIssues(issueKey)
+
+    if (response.status === 200) {
+      issues.push(response.data.key as string)
     }
   }
 
-  return null
+  return issues.length > 0 ? issues.join(', ') : null
 }
 
 export default execute

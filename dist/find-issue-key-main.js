@@ -1,7 +1,7 @@
 'use strict';
 
 var fs = require('fs');
-var core = require('./core-d426bd55.js');
+var core = require('./core-bf449f77.js');
 var index = require('./index-7e527b11.js');
 var path = require('./path.js');
 var action = require('./action.js');
@@ -16,37 +16,29 @@ require('tls');
 require('events');
 require('assert');
 require('util');
-require('./lodash-fa14b848.js');
 require('./jira.js');
+require('./axios-client.js');
+require('stream');
 require('url');
-require('./fetch.js');
-require('node:http');
-require('node:https');
-require('node:zlib');
-require('node:stream');
-require('node:buffer');
-require('node:util');
-require('./index-5862fa85.js');
-require('node:url');
-require('node:net');
-require('node:fs');
-require('node:path');
+require('tty');
+require('zlib');
 require('./get-github-event.js');
+require('./preprocess-string.js');
 
 const config = index.YAML.parse(fs.readFileSync(path.configPath, 'utf8'));
 async function run() {
     try {
         const inputString = action.getRequiredInput('string');
-        const response = await findIssueKeyExecute(config, inputString);
-        if (response) {
-            console.log(`Detected issueKey: ${response.issue}`);
-            console.log(`Saving ${response.issue} to ${path.cliConfigPath}`);
-            console.log(`Saving ${response.issue} to ${path.configPath}`);
+        const issueKeys = await findIssueKeyExecute(config, inputString);
+        if (issueKeys) {
+            console.log(`Detected issueKey: ${issueKeys}`);
+            console.log(`Saving ${issueKeys} to ${path.cliConfigPath}`);
+            console.log(`Saving ${issueKeys} to ${path.configPath}`);
             const extendedConfig = Object.assign({}, config, {
-                issue: response.issue
+                issue: issueKeys
             });
             fs.writeFileSync(path.configPath, index.YAML.stringify(extendedConfig));
-            return fs.appendFileSync(path.cliConfigPath, index.YAML.stringify(response.issue));
+            return fs.appendFileSync(path.cliConfigPath, index.YAML.stringify(issueKeys));
         }
         console.log('No issueKeys found.');
         return;
