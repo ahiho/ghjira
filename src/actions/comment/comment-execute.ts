@@ -12,20 +12,24 @@ async function execute(config, rawComment: string) {
     token: config.token
   })
 
-  const issueKey: string = config.issue
+  const configIssueKeys: string = config.issue
+
+  const issueKeys = configIssueKeys.split(',')
 
   const interpolatedComment = preprocessString(rawComment, githubEvent)
 
   const comment = mdToAdf(interpolatedComment)
 
-  await jiraInstance.addComment(
-    issueKey,
-    JSON.stringify({
-      body: comment
-    })
-  )
+  for (const issueKey of issueKeys) {
+    await jiraInstance.addComment(
+      issueKey,
+      JSON.stringify({
+        body: comment
+      })
+    )
 
-  console.log(`Comment has been added to ${issueKey}: ${interpolatedComment}`)
+    console.log(`Comment has been added to ${issueKey}: ${interpolatedComment}`)
+  }
 }
 
 export default execute

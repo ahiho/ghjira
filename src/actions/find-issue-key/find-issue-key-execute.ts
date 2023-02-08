@@ -32,7 +32,7 @@ async function execute(config, inputString: string) {
     }
   }
 
-  return issues.length > 0 ? issues.join(', ') : null
+  return issues.length > 0 ? [...new Set(issues)].join(', ') : null
 }
 
 export default execute

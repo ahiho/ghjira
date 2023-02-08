@@ -27,13 +27,16 @@ async function execute(config, rawComment) {
         email: config.email,
         token: config.token
     });
-    const issueKey = config.issue;
+    const configIssueKeys = config.issue;
+    const issueKeys = configIssueKeys.split(',');
     const interpolatedComment = preprocessString(rawComment, githubEvent);
     const comment = mdToAdf(interpolatedComment);
-    await jiraInstance.addComment(issueKey, JSON.stringify({
-        body: comment
-    }));
-    console.log(`Comment has been added to ${issueKey}: ${interpolatedComment}`);
+    for (const issueKey of issueKeys) {
+        await jiraInstance.addComment(issueKey, JSON.stringify({
+            body: comment
+        }));
+        console.log(`Comment has been added to ${issueKey}: ${interpolatedComment}`);
+    }
 }
 
 module.exports = execute;
