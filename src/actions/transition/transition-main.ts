@@ -14,11 +14,13 @@ async function run(): Promise<void> {
   try {
     const transitionName = getRequiredInput('transition')
 
-    const response = await execute(config, transitionName)
+    const transitionedIssues = await execute(config, transitionName)
 
-    console.log(
-      `Changed ${config.issue} status to: ${response.body.fields.status.name} .`
-    )
+    transitionedIssues.map(transitionedIssue => {
+      console.log(
+        `Changed ${transitionedIssue.issueKey} status to: ${transitionedIssue.transitionName} .`
+      )
+    })
 
     return
   } catch (error) {

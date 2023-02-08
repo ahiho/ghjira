@@ -1,32 +1,30 @@
-name: "build-test"
+name: "Test github actions for Jira"
 on:
   pull_request:
-  push:
-    branches:
-      - main
-      - "releases/*"
+    types: [labeled]
 
 jobs:
-  build:
+  jira-github-actions:
+    name: "Test github actions for Jira"
+    if: ${{ github.event.label.name == 'test-actions' }}
     runs-on: ubuntu-latest
     steps:
+      - name: Remove Label
+        run: |
+          curl -X DELETE -H 'Authorization: token ${{secrets.PAT}}' -H "Accept: application/vnd.github.v3+json" "${{ github.api_url }}/repos/${{ github.repository }}/issues/${{github.event.pull_request.number}}/labels/test-actions"
+
       - uses: actions/checkout@v3
-      - run: |
-          yarn
-      - run: |
-          yarn all
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+
       - uses: ./actions/login
         env:
           JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
           JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
           JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+
       - uses: ./actions/find-issue-key
         with:
           string: ${{ github.event.pull_request.head.ref }} ${{ github.event.pull_request.title }} ${{ github.event.head_commit.message }}
+
       - uses: ./actions/comment
         with:
           comment: |
@@ -263,7 +261,9 @@ jobs:
             ::: warning
             *here be dragons*
             :::
+
       - uses: ./actions/transition
         with:
           transition: "In progress"
+
       - uses: ./actions/logout

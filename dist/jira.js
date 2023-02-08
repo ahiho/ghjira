@@ -1,19 +1,18 @@
 'use strict';
 
-var url = require('url');
-var fetch = require('./fetch.js');
-require('node:http');
-require('node:https');
-require('node:zlib');
-require('node:stream');
-require('node:buffer');
-require('node:util');
-require('./index-5862fa85.js');
-require('./_commonjsHelpers-9f9f50a8.js');
-require('node:url');
-require('node:net');
-require('node:fs');
-require('node:path');
+var axiosClient = require('./axios-client.js');
+require('util');
+require('stream');
+require('path');
+require('http');
+require('https');
+require('url');
+require('fs');
+require('assert');
+require('tty');
+require('os');
+require('zlib');
+require('events');
 
 class Jira {
     baseUrl;
@@ -24,55 +23,24 @@ class Jira {
         this.token = token;
         this.email = email;
     }
-    jiraClient(url$1, { method, body, headers = {} }) {
-        const requestUrl = new url.URL(url$1, this.baseUrl);
-        if (method === undefined) {
-            method = 'GET';
-        }
-        if (headers['Accept'] === undefined) {
-            headers['Accept'] = 'application/json';
-        }
-        if (headers['Content-Type'] === undefined) {
-            headers['Content-Type'] = 'application/json';
-        }
-        if (headers['Authorization'] === undefined) {
-            headers['Authorization'] = `Basic ${Buffer.from(`${this.email}:${this.token}`).toString('base64')}`;
-        }
-        // if (body && headers['Content-Type'] === 'application/json') {
-        //   body = JSON.stringify(body)
-        // }
-        return fetch(requestUrl.toString(), {
-            method,
-            headers,
-            body
-        });
+    jiraClient() {
+        const token = Buffer.from(`${this.email}:${this.token}`).toString('base64');
+        return axiosClient(this.baseUrl, token);
     }
     async getMyself() {
-        return this.jiraClient('/rest/api/3/myself', {
-            method: 'GET'
-        });
+        return this.jiraClient().get('/rest/api/3/myself');
     }
-    async getIssue(issueId) {
-        return this.jiraClient(`/rest/api/3/issue/${issueId}`, {
-            method: 'GET'
-        });
+    async getIssues(issueId) {
+        return this.jiraClient().get(`/rest/api/3/issue/${issueId}`);
     }
     async addComment(issueKey, data) {
-        return this.jiraClient(`/rest/api/3/issue/${issueKey}/comment`, {
-            method: 'POST',
-            body: data
-        });
+        return this.jiraClient().post(`/rest/api/3/issue/${issueKey}/comment`, data);
     }
     async getIssueTransitions(issueKey) {
-        return this.jiraClient(`/rest/api/3/issue/${issueKey}/transitions`, {
-            method: 'GET'
-        });
+        return this.jiraClient().get(`/rest/api/3/issue/${issueKey}/transitions`);
     }
     async transitionIssue(issueKey, data) {
-        return this.jiraClient(`/rest/api/3/issue/${issueKey}/transitions`, {
-            method: 'POST',
-            body: data
-        });
+        return this.jiraClient().post(`/rest/api/3/issue/${issueKey}/transitions`, data);
     }
 }
 

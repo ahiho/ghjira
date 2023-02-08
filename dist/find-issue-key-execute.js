@@ -1,30 +1,24 @@
 'use strict';
 
-var lodash = require('./lodash-fa14b848.js');
 var jira = require('./jira.js');
 var getGithubEvent = require('./get-github-event.js');
-require('./_commonjsHelpers-9f9f50a8.js');
+var preprocessString = require('./preprocess-string.js');
+require('./axios-client.js');
+require('util');
+require('stream');
+require('path');
+require('http');
+require('https');
 require('url');
-require('./fetch.js');
-require('node:http');
-require('node:https');
-require('node:zlib');
-require('node:stream');
-require('node:buffer');
-require('node:util');
-require('./index-5862fa85.js');
-require('node:url');
-require('node:net');
-require('node:fs');
-require('node:path');
 require('fs');
+require('assert');
+require('tty');
+require('os');
+require('zlib');
+require('events');
+require('./_commonjsHelpers-9f9f50a8.js');
 
 const issueIdRegEx = /([a-zA-Z0-9]+-[0-9]+)/g;
-const preprocessString = (str, githubEvent) => {
-    lodash._.templateSettings.interpolate = /{{([\s\S]+?)}}/g;
-    const tmpl = lodash._.template(str);
-    return tmpl({ event: githubEvent });
-};
 async function execute(config, inputString) {
     const githubEvent = getGithubEvent();
     const jiraInstance = new jira({
@@ -38,13 +32,14 @@ async function execute(config, inputString) {
         console.log(`String "${extractString}" does not contain issueKeys`);
         return;
     }
+    const issues = [];
     for (const issueKey of match) {
-        const response = await jiraInstance.getIssue(issueKey);
-        if (response) {
-            return { issue: response.body.key };
+        const response = await jiraInstance.getIssues(issueKey);
+        if (response.status === 200) {
+            issues.push(response.data.key);
         }
     }
-    return null;
+    return issues.length > 0 ? [...new Set(issues)].join(', ') : null;
 }
 
 module.exports = execute;

@@ -1,8 +1,7 @@
-import _ from 'lodash'
-
 import Jira from '../../services/jira'
 import getGithubEvent from '../../utils/get-github-event'
 import mdToAdf from '../../utils/md-to-adf'
+import preprocessString from '../../utils/preprocess-string'
 
 async function execute(config, rawComment: string) {
   const githubEvent = getGithubEvent()
@@ -13,22 +12,24 @@ async function execute(config, rawComment: string) {
     token: config.token
   })
 
-  const issueKey: string = config.issue
+  const configIssueKeys: string = config.issue
 
-  _.templateSettings.interpolate = /{{([\s\S]+?)}}/g
-  const compiled = _.template(rawComment)
-  const interpolatedComment = compiled({event: githubEvent})
+  const issueKeys = configIssueKeys.split(',')
+
+  const interpolatedComment = preprocessString(rawComment, githubEvent)
 
   const comment = mdToAdf(interpolatedComment)
 
-  await jiraInstance.addComment(
-    issueKey,
-    JSON.stringify({
-      body: comment
-    })
-  )
+  for (const issueKey of issueKeys) {
+    await jiraInstance.addComment(
+      issueKey,
+      JSON.stringify({
+        body: comment
+      })
+    )
 
-  console.log(`Comment has been added to ${issueKey}: ${interpolatedComment}`)
+    console.log(`Comment has been added to ${issueKey}: ${interpolatedComment}`)
+  }
 }
 
 export default execute
