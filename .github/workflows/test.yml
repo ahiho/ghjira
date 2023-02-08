@@ -9,6 +9,10 @@ jobs:
     if: ${{ github.event.label.name == 'test-actions' }}
     runs-on: ubuntu-latest
     steps:
+      - name: Remove Label
+        run: |
+          curl -X DELETE -H 'Authorization: token ${{secrets.PAT}}' -H "Accept: application/vnd.github.v3+json" "${{ github.api_url }}/repos/${{ github.repository }}/issues/${{github.event.pull_request.number}}/labels/test-actions"
+
       - uses: actions/checkout@v3
 
       - uses: ./actions/login
