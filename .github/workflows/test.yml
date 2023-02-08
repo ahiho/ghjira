@@ -1,270 +1,265 @@
-name: "build-test"
+name: "Test github actions for Jira"
 on:
   pull_request:
-  push:
-    branches:
-      - main
-      - "releases/*"
+    types: [labeled]
 
 jobs:
-  build:
+  jira-github-actions:
+    name: "Test github actions for Jira"
+    if: ${{ github.event.label.name == 'test-actions' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: |
-          yarn
-      - run: |
-          yarn all
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+
       - uses: ./actions/login
         env:
           JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
           JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
           JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+
       - uses: ./actions/find-issue-key
         with:
-          # string: ${{ github.event.pull_request.head.ref }} ${{ github.event.pull_request.title }} ${{ github.event.head_commit.message }}
-          string: VIBES-650 VIBES-652 VIBES-709
-      # - uses: ./actions/comment
-      #   with:
-      #     comment: |
-      #       # h1 Heading 8-)
-      #       ## h2 Heading
-      #       ### h3 Heading
-      #       #### h4 Heading
-      #       ##### h5 Heading
-      #       ###### h6 Heading
+          string: ${{ github.event.pull_request.head.ref }} ${{ github.event.pull_request.title }} ${{ github.event.head_commit.message }}
 
+      - uses: ./actions/comment
+        with:
+          comment: |
+            # h1 Heading 8-)
+            ## h2 Heading
+            ### h3 Heading
+            #### h4 Heading
+            ##### h5 Heading
+            ###### h6 Heading
 
-      #       ## Horizontal Rules
 
-      #       ___
+            ## Horizontal Rules
 
-      #       ---
+            ___
 
-      #       ***
+            ---
 
+            ***
 
-      #       ## Typographic replacements
 
-      #       Enable typographer option to see result.
+            ## Typographic replacements
 
-      #       (c) (C) (r) (R) (tm) (TM) (p) (P) +-
+            Enable typographer option to see result.
 
-      #       test.. test... test..... test?..... test!....
+            (c) (C) (r) (R) (tm) (TM) (p) (P) +-
 
-      #       !!!!!! ???? ,,  -- ---
+            test.. test... test..... test?..... test!....
 
-      #       "Smartypants, double quotes" and 'single quotes'
+            !!!!!! ???? ,,  -- ---
 
+            "Smartypants, double quotes" and 'single quotes'
 
-      #       ## Emphasis
 
-      #       **This is bold text**
+            ## Emphasis
 
-      #       __This is bold text__
+            **This is bold text**
 
-      #       *This is italic text*
+            __This is bold text__
 
-      #       _This is italic text_
+            *This is italic text*
 
-      #       ~~Strikethrough~~
+            _This is italic text_
 
+            ~~Strikethrough~~
 
-      #       ## Blockquotes
 
+            ## Blockquotes
 
-      #       > Blockquotes can also be nested...
-      #       >> ...by using additional greater-than signs right next to each other...
-      #       > > > ...or with spaces between arrows.
 
+            > Blockquotes can also be nested...
+            >> ...by using additional greater-than signs right next to each other...
+            > > > ...or with spaces between arrows.
 
-      #       ## Lists
 
-      #       Unordered
+            ## Lists
 
-      #       + Create a list by starting a line with `+`, `-`, or `*`
-      #       + Sub-lists are made by indenting 2 spaces:
-      #         - Marker character change forces new list start:
-      #           * Ac tristique libero volutpat at
-      #           + Facilisis in pretium nisl aliquet
-      #           - Nulla volutpat aliquam velit
-      #       + Very easy!
+            Unordered
 
-      #       Ordered
+            + Create a list by starting a line with `+`, `-`, or `*`
+            + Sub-lists are made by indenting 2 spaces:
+              - Marker character change forces new list start:
+                * Ac tristique libero volutpat at
+                + Facilisis in pretium nisl aliquet
+                - Nulla volutpat aliquam velit
+            + Very easy!
 
-      #       1. Lorem ipsum dolor sit amet
-      #       2. Consectetur adipiscing elit
-      #       3. Integer molestie lorem at massa
+            Ordered
 
+            1. Lorem ipsum dolor sit amet
+            2. Consectetur adipiscing elit
+            3. Integer molestie lorem at massa
 
-      #       1. You can use sequential numbers...
-      #       1. ...or keep all the numbers as `1.`
 
-      #       Start numbering with offset:
+            1. You can use sequential numbers...
+            1. ...or keep all the numbers as `1.`
 
-      #       57. foo
-      #       1. bar
+            Start numbering with offset:
 
+            57. foo
+            1. bar
 
-      #       ## Code
 
-      #       Inline `code`
+            ## Code
 
-      #       Indented code
+            Inline `code`
 
-      #           // Some comments
-      #           line 1 of code
-      #           line 2 of code
-      #           line 3 of code
+            Indented code
 
+                // Some comments
+                line 1 of code
+                line 2 of code
+                line 3 of code
 
-      #       Block code "fences"
 
-      #       ```
-      #       Sample text here...
-      #       ```
+            Block code "fences"
 
-      #       Syntax highlighting
+            ```
+            Sample text here...
+            ```
 
-      #       ``` js
-      #       var foo = function (bar) {
-      #         return bar++;
-      #       };
+            Syntax highlighting
 
-      #       console.log(foo(5));
-      #       ```
+            ``` js
+            var foo = function (bar) {
+              return bar++;
+            };
 
-      #       ## Tables
+            console.log(foo(5));
+            ```
 
-      #       | Option | Description |
-      #       | ------ | ----------- |
-      #       | data   | path to data files to supply the data that will be passed into templates. |
-      #       | engine | engine to be used for processing templates. Handlebars is the default. |
-      #       | ext    | extension to be used for dest files. |
+            ## Tables
 
-      #       Right aligned columns
+            | Option | Description |
+            | ------ | ----------- |
+            | data   | path to data files to supply the data that will be passed into templates. |
+            | engine | engine to be used for processing templates. Handlebars is the default. |
+            | ext    | extension to be used for dest files. |
 
-      #       | Option | Description |
-      #       | ------:| -----------:|
-      #       | data   | path to data files to supply the data that will be passed into templates. |
-      #       | engine | engine to be used for processing templates. Handlebars is the default. |
-      #       | ext    | extension to be used for dest files. |
+            Right aligned columns
 
+            | Option | Description |
+            | ------:| -----------:|
+            | data   | path to data files to supply the data that will be passed into templates. |
+            | engine | engine to be used for processing templates. Handlebars is the default. |
+            | ext    | extension to be used for dest files. |
 
-      #       ## Links
 
-      #       [link text](http://dev.nodeca.com)
+            ## Links
 
-      #       [link with title](http://nodeca.github.io/pica/demo/ "title text!")
+            [link text](http://dev.nodeca.com)
 
-      #       Autoconverted link https://github.com/nodeca/pica (enable linkify to see)
+            [link with title](http://nodeca.github.io/pica/demo/ "title text!")
 
+            Autoconverted link https://github.com/nodeca/pica (enable linkify to see)
 
-      #       ## Images
 
-      #       ![Minion](https://octodex.github.com/images/minion.png)
-      #       ![Stormtroopocat](https://octodex.github.com/images/stormtroopocat.jpg "The Stormtroopocat")
+            ## Images
 
-      #       Like links, Images also have a footnote style syntax
+            ![Minion](https://octodex.github.com/images/minion.png)
+            ![Stormtroopocat](https://octodex.github.com/images/stormtroopocat.jpg "The Stormtroopocat")
 
-      #       ![Alt text][id]
+            Like links, Images also have a footnote style syntax
 
-      #       <!-- TODO: Need helping to support image token -->
-      #       <!--With a reference later in the document defining the URL location: -->
+            ![Alt text][id]
 
-      #       <!--[id]: https://octodex.github.com/images/dojocat.jpg  "The Dojocat" -->
+            <!-- TODO: Need helping to support image token -->
+            <!--With a reference later in the document defining the URL location: -->
 
-      #       ## Plugins
+            <!--[id]: https://octodex.github.com/images/dojocat.jpg  "The Dojocat" -->
 
-      #       The killer feature of `markdown-it` is very effective support of
-      #       [syntax plugins](https://www.npmjs.org/browse/keyword/markdown-it-plugin).
+            ## Plugins
 
+            The killer feature of `markdown-it` is very effective support of
+            [syntax plugins](https://www.npmjs.org/browse/keyword/markdown-it-plugin).
 
-      #       ### [Emojies](https://github.com/markdown-it/markdown-it-emoji)
 
-      #       > Classic markup: :wink: :crush: :cry: :tear: :laughing: :yum:
-      #       >
-      #       > Shortcuts (emoticons): :-) :-( 8-) ;)
+            ### [Emojies](https://github.com/markdown-it/markdown-it-emoji)
 
-      #       see [how to change output](https://github.com/markdown-it/markdown-it-emoji#change-output) with twemoji.
+            > Classic markup: :wink: :crush: :cry: :tear: :laughing: :yum:
+            >
+            > Shortcuts (emoticons): :-) :-( 8-) ;)
 
+            see [how to change output](https://github.com/markdown-it/markdown-it-emoji#change-output) with twemoji.
 
-      #       ### [Subscript](https://github.com/markdown-it/markdown-it-sub) / [Superscript](https://github.com/markdown-it/markdown-it-sup)
 
-      #       - 19^th^
-      #       - H~2~O
+            ### [Subscript](https://github.com/markdown-it/markdown-it-sub) / [Superscript](https://github.com/markdown-it/markdown-it-sup)
 
+            - 19^th^
+            - H~2~O
 
-      #       ### [\<ins>](https://github.com/markdown-it/markdown-it-ins)
 
-      #       ++Inserted text++
+            ### [\<ins>](https://github.com/markdown-it/markdown-it-ins)
 
+            ++Inserted text++
 
-      #       ### [\<mark>](https://github.com/markdown-it/markdown-it-mark)
 
-      #       ==Marked text==
+            ### [\<mark>](https://github.com/markdown-it/markdown-it-mark)
 
+            ==Marked text==
 
-      #       ### [Footnotes](https://github.com/markdown-it/markdown-it-footnote)
 
-      #       Footnote 1 link[^first].
+            ### [Footnotes](https://github.com/markdown-it/markdown-it-footnote)
 
-      #       Footnote 2 link[^second].
+            Footnote 1 link[^first].
 
-      #       Inline footnote^[Text of inline footnote] definition.
+            Footnote 2 link[^second].
 
-      #       Duplicated footnote reference[^second].
+            Inline footnote^[Text of inline footnote] definition.
 
-      #       [^first]: Footnote **can have markup**
+            Duplicated footnote reference[^second].
 
-      #           and multiple paragraphs.
+            [^first]: Footnote **can have markup**
 
-      #       [^second]: Footnote text.
+                and multiple paragraphs.
 
+            [^second]: Footnote text.
 
-      #       ### [Definition lists](https://github.com/markdown-it/markdown-it-deflist)
 
-      #       Term 1
+            ### [Definition lists](https://github.com/markdown-it/markdown-it-deflist)
 
-      #       :   Definition 1
-      #       with lazy continuation.
+            Term 1
 
-      #       Term 2 with *inline markup*
+            :   Definition 1
+            with lazy continuation.
 
-      #       :   Definition 2
+            Term 2 with *inline markup*
 
-      #               { some code, part of Definition 2 }
+            :   Definition 2
 
-      #           Third paragraph of definition 2.
+                    { some code, part of Definition 2 }
 
-      #       _Compact style:_
+                Third paragraph of definition 2.
 
-      #       Term 1
-      #         ~ Definition 1
+            _Compact style:_
 
-      #       Term 2
-      #         ~ Definition 2a
-      #         ~ Definition 2b
+            Term 1
+              ~ Definition 1
 
+            Term 2
+              ~ Definition 2a
+              ~ Definition 2b
 
-      #       ### [Abbreviations](https://github.com/markdown-it/markdown-it-abbr)
 
-      #       This is HTML abbreviation example.
+            ### [Abbreviations](https://github.com/markdown-it/markdown-it-abbr)
 
-      #       It converts "HTML", but keep intact partial entries like "xxxHTMLyyy" and so on.
+            This is HTML abbreviation example.
 
-      #       *[HTML]: Hyper Text Markup Language
+            It converts "HTML", but keep intact partial entries like "xxxHTMLyyy" and so on.
 
-      #       ### [Custom containers](https://github.com/markdown-it/markdown-it-container)
+            *[HTML]: Hyper Text Markup Language
 
-      #       ::: warning
-      #       *here be dragons*
-      #       :::
+            ### [Custom containers](https://github.com/markdown-it/markdown-it-container)
+
+            ::: warning
+            *here be dragons*
+            :::
+
       - uses: ./actions/transition
         with:
-          transition: "In progress111"
+          transition: "In progress"
+
       - uses: ./actions/logout
