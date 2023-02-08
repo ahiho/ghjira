@@ -1,6 +1,6 @@
 'use strict';
 
-var core = require('./core-d426bd55.js');
+var core = require('./core-bf449f77.js');
 var logoutExecute = require('./logout-execute.js');
 require('./_commonjsHelpers-9f9f50a8.js');
 require('os');

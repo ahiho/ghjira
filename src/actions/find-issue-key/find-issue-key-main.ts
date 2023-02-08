@@ -13,20 +13,20 @@ const config = YAML.parse(fs.readFileSync(configPath, 'utf8'))
 async function run(): Promise<void> {
   try {
     const inputString = getRequiredInput('string')
-    const response = await execute(config, inputString)
+    const issueKeys = await execute(config, inputString)
 
-    if (response) {
-      console.log(`Detected issueKey: ${response.issue}`)
-      console.log(`Saving ${response.issue} to ${cliConfigPath}`)
-      console.log(`Saving ${response.issue} to ${configPath}`)
+    if (issueKeys) {
+      console.log(`Detected issueKey: ${issueKeys}`)
+      console.log(`Saving ${issueKeys} to ${cliConfigPath}`)
+      console.log(`Saving ${issueKeys} to ${configPath}`)
 
       const extendedConfig = Object.assign({}, config, {
-        issue: response.issue
+        issue: issueKeys
       })
 
       fs.writeFileSync(configPath, YAML.stringify(extendedConfig))
 
-      return fs.appendFileSync(cliConfigPath, YAML.stringify(response.issue))
+      return fs.appendFileSync(cliConfigPath, YAML.stringify(issueKeys))
     }
 
     console.log('No issueKeys found.')
