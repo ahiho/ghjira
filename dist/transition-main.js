@@ -22,6 +22,7 @@ require('stream');
 require('url');
 require('tty');
 require('zlib');
+require('./get-issue-keys-492ae078.js');
 
 const config = index.YAML.parse(fs.readFileSync(path.configPath, 'utf8'));
 async function run() {

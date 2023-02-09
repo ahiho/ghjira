@@ -1,9 +1,11 @@
 import Jira from '../../services/jira'
+import {JiraConfig} from '../../types'
 import getGithubEvent from '../../utils/get-github-event'
+import getIssueKeys from '../../utils/get-issue-keys'
 import mdToAdf from '../../utils/md-to-adf'
 import preprocessString from '../../utils/preprocess-string'
 
-async function execute(config, rawComment: string) {
+async function execute(config: JiraConfig, rawComment: string) {
   const githubEvent = getGithubEvent()
 
   const jiraInstance = new Jira({
@@ -12,9 +14,7 @@ async function execute(config, rawComment: string) {
     token: config.token
   })
 
-  const configIssueKeys: string = config.issue
-
-  const issueKeys = configIssueKeys.split(',')
+  const issueKeys = getIssueKeys(config)
 
   const interpolatedComment = preprocessString(rawComment, githubEvent)
 

@@ -1,6 +1,7 @@
 'use strict';
 
 var jira = require('./jira.js');
+var getIssueKeys = require('./get-issue-keys-492ae078.js');
 require('./axios-client.js');
 require('util');
 require('stream');
@@ -21,8 +22,7 @@ async function execute(config, transitionName) {
         email: config.email,
         token: config.token
     });
-    const configIssueKeys = config.issue;
-    const issueKeys = configIssueKeys.split(',');
+    const issueKeys = getIssueKeys.getIssueKeys(config);
     const transitionedIssues = [];
     for (const issueKey of issueKeys) {
         const response = await jiraInstance.getIssueTransitions(issueKey);
@@ -45,7 +45,7 @@ async function execute(config, transitionName) {
                 id: transitionToApply.id
             }
         }));
-        const transitionedIssue = await jiraInstance.getIssues(issueKey);
+        const transitionedIssue = await jiraInstance.getIssue(issueKey);
         if (transitionedIssue.status !== 200) {
             throw new Error('Get issue failed.');
         }

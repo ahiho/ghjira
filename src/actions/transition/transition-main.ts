@@ -4,11 +4,12 @@ import * as core from '@actions/core'
 import YAML from 'yaml'
 
 import {configPath} from '../../constants/path'
+import {JiraConfig} from '../../types'
 import {getRequiredInput} from '../../utils/action'
 
 import execute from './transition-execute'
 
-const config = YAML.parse(fs.readFileSync(configPath, 'utf8'))
+const config: JiraConfig = YAML.parse(fs.readFileSync(configPath, 'utf8'))
 
 async function run(): Promise<void> {
   try {

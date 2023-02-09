@@ -25,7 +25,7 @@ async function execute(config, inputString: string) {
   const issues: string[] = []
 
   for (const issueKey of match) {
-    const response = await jiraInstance.getIssues(issueKey)
+    const response = await jiraInstance.getIssue(issueKey)
 
     if (response.status === 200) {
       issues.push(response.data.key as string)
