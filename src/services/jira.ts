@@ -24,7 +24,7 @@ export default class Jira {
     return this.jiraClient().get('/rest/api/3/myself')
   }
 
-  async getIssues(issueId: string): Promise<AxiosResponse<any, any>> {
+  async getIssue(issueId: string): Promise<AxiosResponse<any, any>> {
     return this.jiraClient().get(`/rest/api/3/issue/${issueId}`)
   }
 
@@ -49,5 +49,16 @@ export default class Jira {
       `/rest/api/3/issue/${issueKey}/transitions`,
       data
     )
+  }
+
+  async getLabels(): Promise<AxiosResponse<any, any>> {
+    return this.jiraClient().get(`/rest/api/3/label`)
+  }
+
+  async editIssue(
+    issueKey: string,
+    data: any
+  ): Promise<AxiosResponse<any, any>> {
+    return this.jiraClient().put(`/rest/api/3/issue/${issueKey}`, data)
   }
 }

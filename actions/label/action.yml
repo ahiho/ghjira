@@ -1,0 +1,13 @@
+name: "Edit label"
+description: "Edit Jira ticket label"
+author: "Ahiho"
+inputs:
+  add:
+    description: Label name need to be added
+    required: false
+  remove:
+    description: Label name need to be removed
+    required: false
+runs:
+  using: "node16"
+  main: "../../dist/label-main.js"

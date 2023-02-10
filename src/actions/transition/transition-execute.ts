@@ -1,15 +1,15 @@
 import Jira from '../../services/jira'
+import {JiraConfig} from '../../types'
+import getIssueKeys from '../../utils/get-issue-keys'
 
-async function execute(config, transitionName) {
+async function execute(config: JiraConfig, transitionName: string) {
   const jiraInstance = new Jira({
     baseUrl: config.baseUrl,
     email: config.email,
     token: config.token
   })
 
-  const configIssueKeys: string = config.issue
-
-  const issueKeys = configIssueKeys.split(',')
+  const issueKeys = getIssueKeys(config)
 
   const transitionedIssues: Array<{issueKey: string; transitionName: string}> =
     []
@@ -49,7 +49,7 @@ async function execute(config, transitionName) {
       })
     )
 
-    const transitionedIssue = await jiraInstance.getIssues(issueKey)
+    const transitionedIssue = await jiraInstance.getIssue(issueKey)
 
     if (transitionedIssue.status !== 200) {
       throw new Error('Get issue failed.')

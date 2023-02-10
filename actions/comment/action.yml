@@ -1,5 +1,5 @@
-name: "Comment to JIRA ticket"
-description: "Comment to JIRA ticket"
+name: "Comment to Jira ticket"
+description: "Comment to Jira ticket"
 author: "Ahiho"
 inputs:
   comment:

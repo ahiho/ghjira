@@ -23,6 +23,7 @@ require('url');
 require('tty');
 require('zlib');
 require('./get-github-event.js');
+require('./get-issue-keys-492ae078.js');
 require('./md-to-adf.js');
 require('punycode');
 require('./preprocess-string.js');

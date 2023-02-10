@@ -42,6 +42,7 @@ module.exports = [
         'css-color-names': 'namedColors',
         'linkify-it': 'LinkifyIt',
         'lodash/isEqual': 'isEqual',
+        'lodash/isUndefined': 'isUndefined',
         'markdown-it': 'markdownit'
       }
     },

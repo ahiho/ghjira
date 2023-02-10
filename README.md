@@ -11,6 +11,7 @@ The GitHub Actions for [Jira](https://www.atlassian.com/software/jira) to create
 - `Find issue key` - Search for an issue key in commit message, branch name, etc. This issue key is then saved and used by the next actions in the same workflow
 - `Comment` - Add a comment to a Jira issue
 - `Transition` - Transition a Jira issue
+- `Label` - Edit Jira issue label
 - `Logout` - Logout Jira
 
 ## Usage
@@ -52,6 +53,11 @@ jobs:
             This is an external image ![this is image alt](https://picsum.photos/200/300)
             ## Markdown header 2
             ### Markdown header 3
+      
+      - uses: ahiho/ghjira/actions/label@main
+        with:
+          add: Backend, Research, UserMatter
+          remove: UserMatter
 
       - name: Transition Issue
         uses: ahiho/ghjira/actions/transition@main

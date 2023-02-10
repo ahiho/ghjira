@@ -30,7 +30,7 @@ class Jira {
     async getMyself() {
         return this.jiraClient().get('/rest/api/3/myself');
     }
-    async getIssues(issueId) {
+    async getIssue(issueId) {
         return this.jiraClient().get(`/rest/api/3/issue/${issueId}`);
     }
     async addComment(issueKey, data) {
@@ -41,6 +41,12 @@ class Jira {
     }
     async transitionIssue(issueKey, data) {
         return this.jiraClient().post(`/rest/api/3/issue/${issueKey}/transitions`, data);
+    }
+    async getLabels() {
+        return this.jiraClient().get(`/rest/api/3/label`);
+    }
+    async editIssue(issueKey, data) {
+        return this.jiraClient().put(`/rest/api/3/issue/${issueKey}`, data);
     }
 }
 

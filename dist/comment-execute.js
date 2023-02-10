@@ -2,6 +2,7 @@
 
 var jira = require('./jira.js');
 var getGithubEvent = require('./get-github-event.js');
+var getIssueKeys = require('./get-issue-keys-492ae078.js');
 var mdToAdf = require('./md-to-adf.js');
 var preprocessString = require('./preprocess-string.js');
 require('./axios-client.js');
@@ -27,8 +28,7 @@ async function execute(config, rawComment) {
         email: config.email,
         token: config.token
     });
-    const configIssueKeys = config.issue;
-    const issueKeys = configIssueKeys.split(',');
+    const issueKeys = getIssueKeys.getIssueKeys(config);
     const interpolatedComment = preprocessString(rawComment, githubEvent);
     const comment = mdToAdf(interpolatedComment);
     for (const issueKey of issueKeys) {

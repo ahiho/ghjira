@@ -262,6 +262,11 @@ jobs:
             *here be dragons*
             :::
 
+      - uses: ./actions/label
+        with:
+          add: Backend, Research, UserMatter
+          remove: UserMatter
+
       - uses: ./actions/transition
         with:
           transition: "In progress"
