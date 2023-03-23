@@ -5401,10 +5401,10 @@ rimraf@^4.1.2:
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-4.1.2.tgz#20dfbc98083bdfaa28b01183162885ef213dbf7c"
   integrity sha512-BlIbgFryTbw3Dz6hyoWFhKk+unCcHMSkZGrTFVAx2WmttdBSonsdtRlwiuTbDqTKr+UlXIUqJVS4QT5tUzGENQ==
 
-rollup@^3.12.1:
-  version "3.12.1"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-3.12.1.tgz#2975b97713e4af98c15e7024b88292d7fddb3853"
-  integrity sha512-t9elERrz2i4UU9z7AwISj3CQcXP39cWxgRWLdf4Tm6aKm1eYrqHIgjzXBgb67GNY1sZckTFFi0oMozh3/S++Ig==
+rollup@^3.20.1:
+  version "3.20.1"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-3.20.1.tgz#55ff22ff0d8cf1ff5b7560b03946dfe42cde9820"
+  integrity sha512-sz2w8cBJlWQ2E17RcpvHuf4sk2BQx4tfKDnjNPikEpLEevrbIAR7CH3PGa2hpPwWbNgPaA9yh9Jzljds5bc9zg==
   optionalDependencies:
     fsevents "~2.3.2"
 
